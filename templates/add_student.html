@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="page-header">
+    <h2><i class="ti ti-user-plus me-2"></i>Add Student</h2>
+    <p>Register a new student</p>
+</div>
+
+<div class="form-card">
+    <form action="/add_student" method="POST">
+
+        <div class="mb-3">
+            <label class="form-label">Full Name <span class="text-danger">*</span></label>
+            <input type="text"
+                   name="name"
+                   class="form-control"
+                   placeholder="e.g. Arjun Sharma"
+                   required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Class <span class="text-danger">*</span></label>
+            <input type="text"
+                   name="class_name"
+                   class="form-control"
+                   placeholder="e.g. 10th, 11th Science"
+                   required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Phone</label>
+            <input type="text"
+                   name="phone"
+                   class="form-control"
+                   placeholder="e.g. 9876543210">
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Email</label>
+            <input type="email"
+                   name="email"
+                   class="form-control"
+                   placeholder="e.g. arjun@email.com">
+        </div>
+
+        <div class="d-flex gap-2 mt-4">
+            <button type="submit" class="btn-submit">
+                <i class="ti ti-check me-1"></i> Add Student
+            </button>
+            <a href="/students" class="action-btn" style="border:1px solid var(--border);">
+                Cancel
+            </a>
+        </div>
+
+    </form>
+</div>
+
+{% endblock %}

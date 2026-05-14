@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="page-header">
+    <h2><i class="ti ti-users me-2"></i>Students</h2>
+    <p>Manage all registered students</p>
+</div>
+
+<!-- Search bar + Add button -->
+<div class="d-flex gap-2 mb-4">
+    <form action="/students" method="GET" class="d-flex gap-2 flex-grow-1">
+        <input type="text"
+               name="search"
+               value="{{ search }}"
+               placeholder="Search by name..."
+               class="form-control">
+        <button type="submit" class="btn-submit px-4">
+            <i class="ti ti-search"></i>
+        </button>
+    </form>
+    <a href="/add_student" class="action-btn primary">
+        <i class="ti ti-user-plus"></i> Add Student
+    </a>
+</div>
+
+<!-- Students table -->
+<div class="table-card">
+    <div class="table-card-header">
+        <span>All Students</span>
+        <small>{{ students|length }} record(s)</small>
+    </div>
+
+    {% if students %}
+    <table>
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Class</th>
+                <th>Phone</th>
+                <th>Email</th>
+                <th>Joined</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for s in students %}
+            <tr>
+                <td>{{ s.id }}</td>
+                <td><strong>{{ s.name }}</strong></td>
+                <td>{{ s.class_name }}</td>
+                <td>{{ s.phone or '—' }}</td>
+                <td>{{ s.email or '—' }}</td>
+                <td>{{ s.joined_date }}</td>
+                <td>
+                    <a href="/add_fee/{{ s.id }}"
+                       class="badge-custom badge-blue me-1">
+                       + Fee
+                    </a>
+                    <a href="/delete_student/{{ s.id }}"
+                       class="badge-custom badge-red"
+                       onclick="return confirm('Delete {{ s.name }}?')">
+                       Delete
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <div class="empty-state">
+        <i class="ti ti-users" style="font-size:36px; display:block; margin-bottom:12px;"></i>
+        <p>No students found.</p>
+        <a href="/add_student" class="action-btn primary" style="display:inline-flex;">
+            <i class="ti ti-user-plus"></i> Add First Student
+        </a>
+    </div>
+    {% endif %}
+</div>
+
+{% endblock %}

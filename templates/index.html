@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<!-- Hero Section -->
+<div class="hero-section">
+    <div class="hero-content">
+        <div class="hero-title">🎓 Student Tracker</div>
+        <p class="hero-sub">Manage attendance, fees, and students — all in one place</p>
+    </div>
+</div>
+
+<!-- Stat cards -->
+<div class="row g-3 mb-4">
+    <div class="col-md-4">
+        <div class="stat-card">
+            <div class="stat-icon blue"><i class="ti ti-users"></i></div>
+            <div>
+                <div class="stat-label">Total Students</div>
+                <div class="stat-value">{{ total_students }}</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="stat-card">
+            <div class="stat-icon green"><i class="ti ti-circle-check"></i></div>
+            <div>
+                <div class="stat-label">Present Today</div>
+                <div class="stat-value">{{ present_today }}</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="stat-card">
+            <div class="stat-icon red"><i class="ti ti-receipt-2"></i></div>
+            <div>
+                <div class="stat-label">Fee Pending</div>
+                <div class="stat-value">{{ fee_pending }}</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Quick actions -->
+<div class="section-label">Quick Actions</div>
+<div class="d-flex flex-wrap gap-2 mb-4">
+    <a href="/add_student" class="action-btn primary">
+        <i class="ti ti-user-plus"></i> Add Student
+    </a>
+    <a href="/students" class="action-btn success">
+        <i class="ti ti-users"></i> View Students
+    </a>
+    <a href="/attendance" class="action-btn warning">
+        <i class="ti ti-calendar-check"></i> Mark Attendance
+    </a>
+    <a href="/fees" class="action-btn danger">
+        <i class="ti ti-credit-card"></i> Manage Fees
+    </a>
+</div>
+
+<!-- Recent students -->
+<div class="section-label">Recent Students</div>
+<div class="table-card">
+    <div class="table-card-header">
+        <span>Students</span>
+        <small>{{ students|length }} recent</small>
+    </div>
+
+    {% if students %}
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Class</th>
+                <th>Joined</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for s in students %}
+            <tr>
+                <td><strong>{{ s.name }}</strong></td>
+                <td>{{ s.class_name }}</td>
+                <td>{{ s.joined_date }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <div class="empty-state">
+        <i class="ti ti-users" style="font-size:36px; display:block; margin-bottom:12px;"></i>
+        <p>No students added yet.</p>
+        <a href="/add_student" class="action-btn primary" style="display:inline-flex;">
+            <i class="ti ti-user-plus"></i> Add your first student
+        </a>
+    </div>
+    {% endif %}
+</div>
+
+{% endblock %}

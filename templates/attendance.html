@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="page-header">
+    <h2><i class="ti ti-calendar-check me-2"></i>Attendance</h2>
+    <p>Marking attendance for {{ today }}</p>
+</div>
+
+{% if students %}
+<form action="/attendance" method="POST">
+    <div class="table-card mb-3">
+        <div class="table-card-header">
+            <span>Today's Attendance</span>
+            <small>{{ today }}</small>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Class</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for s in students %}
+                <tr>
+                    <td>{{ s.id }}</td>
+                    <td><strong>{{ s.name }}</strong></td>
+                    <td>{{ s.class_name }}</td>
+                    <td>
+                        <select name="status_{{ s.id }}"
+                                class="form-select"
+                                style="width:130px; padding:6px 10px;">
+                            <option value="Present"
+                                {% if marked.get(s.id) == 'Present' %}selected{% endif %}>
+                                Present
+                            </option>
+                            <option value="Absent"
+                                {% if marked.get(s.id) == 'Absent' or s.id not in marked %}selected{% endif %}>
+                                Absent
+                            </option>
+                        </select>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <button type="submit" class="btn-submit">
+        <i class="ti ti-device-floppy me-1"></i> Save Attendance
+    </button>
+</form>
+
+{% else %}
+<div class="table-card">
+    <div class="empty-state">
+        <i class="ti ti-calendar" style="font-size:36px; display:block; margin-bottom:12px;"></i>
+        <p>No students yet. Add students first.</p>
+        <a href="/add_student" class="action-btn primary" style="display:inline-flex;">
+            <i class="ti ti-user-plus"></i> Add Student
+        </a>
+    </div>
+</div>
+{% endif %}
+
+{% endblock %}

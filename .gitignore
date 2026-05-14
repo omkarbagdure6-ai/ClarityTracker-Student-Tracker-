@@ -1,0 +1,17 @@
+# Virtual environment — never upload this
+venv/
+
+# Database file — contains real data
+instance/
+
+# Python cache files
+__pycache__/
+*.pyc
+*.pyo
+
+# VS Code settings
+.vscode/
+
+# System files
+.DS_Store
+Thumbs.db

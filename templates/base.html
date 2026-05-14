@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Tracker</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg">
+    <div class="container-fluid px-4">
+        <a class="navbar-brand" href="/">
+            <i class="ti ti-school me-2"></i>Student Tracker
+        </a>
+        <div class="navbar-nav ms-auto flex-row gap-1">
+            <a class="nav-link {% if request.path == '/' %}active{% endif %}" href="/">
+                <i class="ti ti-layout-dashboard me-1"></i>Dashboard
+            </a>
+            <a class="nav-link {% if '/students' in request.path %}active{% endif %}" href="/students">
+                <i class="ti ti-users me-1"></i>Students
+            </a>
+            <a class="nav-link {% if '/attendance' in request.path %}active{% endif %}" href="/attendance">
+                <i class="ti ti-calendar-check me-1"></i>Attendance
+            </a>
+            <a class="nav-link {% if '/fees' in request.path %}active{% endif %}" href="/fees">
+                <i class="ti ti-receipt-2 me-1"></i>Fees
+            </a>
+        </div>
+    </div>
+</nav>
+
+<!-- Flash messages -->
+<div class="page-wrapper" style="padding-bottom: 0; margin-bottom: -12px;">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+            <div class="alert alert-{{ category }} alert-dismissible fade show rounded-3 border-0 mt-3" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+</div>
+
+<!-- Page content -->
+<div class="page-wrapper">
+    {% block content %}{% endblock %}
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

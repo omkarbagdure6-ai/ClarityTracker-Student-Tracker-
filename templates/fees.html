@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="page-header">
+    <h2><i class="ti ti-receipt-2 me-2"></i>Fee Management</h2>
+    <p>Track and update student fee payments</p>
+</div>
+
+{% if students %}
+    {% for s in students %}
+    <div class="table-card mb-4">
+        <div class="table-card-header">
+            <span><i class="ti ti-user me-1"></i>{{ s.name }}
+                <small class="ms-2" style="font-weight:400; color:var(--text-muted);">
+                    {{ s.class_name }}
+                </small>
+            </span>
+            <a href="/add_fee/{{ s.id }}" class="action-btn success" style="font-size:12px; padding:5px 12px;">
+                <i class="ti ti-plus"></i> Add Fee
+            </a>
+        </div>
+
+        {% if all_fees[s.id] %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Month</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for fee in all_fees[s.id] %}
+                <tr>
+                    <td>{{ fee.month }}</td>
+                    <td>₹{{ "%.0f"|format(fee.amount) }}</td>
+                    <td>
+                        {% if fee.status == 'Paid' %}
+                            <span class="badge-custom badge-green">Paid</span>
+                        {% else %}
+                            <span class="badge-custom badge-amber">Pending</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if fee.status == 'Pending' %}
+                        <a href="/update_fee/{{ fee.id }}/Paid"
+                           class="badge-custom badge-green me-1">
+                           Mark Paid
+                        </a>
+                        {% else %}
+                        <a href="/update_fee/{{ fee.id }}/Pending"
+                           class="badge-custom badge-amber me-1">
+                           Mark Pending
+                        </a>
+                        {% endif %}
+                        <a href="/delete_fee/{{ fee.id }}"
+                           class="badge-custom badge-red"
+                           onclick="return confirm('Delete this fee record?')">
+                           Delete
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <div style="padding: 20px; text-align:center; color: var(--text-muted); font-size:14px;">
+            No fee records yet.
+            <a href="/add_fee/{{ s.id }}" style="color:#185FA5;">Add one</a>
+        </div>
+        {% endif %}
+    </div>
+    {% endfor %}
+
+{% else %}
+<div class="table-card">
+    <div class="empty-state">
+        <i class="ti ti-receipt-2" style="font-size:36px; display:block; margin-bottom:12px;"></i>
+        <p>No students yet. Add students first.</p>
+        <a href="/add_student" class="action-btn primary" style="display:inline-flex;">
+            <i class="ti ti-user-plus"></i> Add Student
+        </a>
+    </div>
+</div>
+{% endif %}
+
+{% endblock %}
