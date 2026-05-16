@@ -47,8 +47,8 @@ with app.app_context():
     db.create_all()
     # Create default admin if none exists
     if not User.query.filter_by(role='admin').first():
-        hashed = bcrypt.generate_password_hash('admin123').decode('utf-8')
-        admin = User(name='Admin', email='admin@tracker.com',
+        hashed = bcrypt.generate_password_hash('omie2006').decode('utf-8')
+        admin = User(name='Admin', email='omkarbagdure05@gmail.com',
                      password=hashed, role='admin')
         db.session.add(admin)
         db.session.commit()
