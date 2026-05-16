@@ -1,19 +1,44 @@
 {% extends 'base.html' %}
+{% block topbar_title %}Dashboard{% endblock %}
 {% block content %}
 
-<!-- Hero Section -->
 <div class="hero-section">
     <div class="hero-content">
-        <div class="hero-title">🎓 Student Tracker</div>
-        <p class="hero-sub">Manage attendance, fees, and students — all in one place</p>
+        <div class="hero-badge">
+            <i class="ti ti-sparkles"></i>
+            Academic Management
+        </div>
+        <div class="hero-title">
+            Good to see you, {{ current_user.name }} 👋
+        </div>
+        <p class="hero-sub">
+            Here is what is happening with your students today.
+        </p>
+        <div class="hero-stats">
+            <div class="hero-stat">
+                <div class="hero-stat-value">{{ total_students }}</div>
+                <div class="hero-stat-label">Students</div>
+            </div>
+            <div class="hero-divider"></div>
+            <div class="hero-stat">
+                <div class="hero-stat-value">{{ present_today }}</div>
+                <div class="hero-stat-label">Present today</div>
+            </div>
+            <div class="hero-divider"></div>
+            <div class="hero-stat">
+                <div class="hero-stat-value">{{ fee_pending }}</div>
+                <div class="hero-stat-label">Fee pending</div>
+            </div>
+        </div>
     </div>
 </div>
 
-<!-- Stat cards -->
 <div class="row g-3 mb-4">
     <div class="col-md-4">
         <div class="stat-card">
-            <div class="stat-icon blue"><i class="ti ti-users"></i></div>
+            <div class="stat-icon purple">
+                <i class="ti ti-users"></i>
+            </div>
             <div>
                 <div class="stat-label">Total Students</div>
                 <div class="stat-value">{{ total_students }}</div>
@@ -22,7 +47,9 @@
     </div>
     <div class="col-md-4">
         <div class="stat-card">
-            <div class="stat-icon green"><i class="ti ti-circle-check"></i></div>
+            <div class="stat-icon teal">
+                <i class="ti ti-circle-check"></i>
+            </div>
             <div>
                 <div class="stat-label">Present Today</div>
                 <div class="stat-value">{{ present_today }}</div>
@@ -31,7 +58,9 @@
     </div>
     <div class="col-md-4">
         <div class="stat-card">
-            <div class="stat-icon red"><i class="ti ti-receipt-2"></i></div>
+            <div class="stat-icon red">
+                <i class="ti ti-receipt-2"></i>
+            </div>
             <div>
                 <div class="stat-label">Fee Pending</div>
                 <div class="stat-value">{{ fee_pending }}</div>
@@ -40,13 +69,12 @@
     </div>
 </div>
 
-<!-- Quick actions -->
 <div class="section-label">Quick Actions</div>
 <div class="d-flex flex-wrap gap-2 mb-4">
     <a href="/add_student" class="action-btn primary">
         <i class="ti ti-user-plus"></i> Add Student
     </a>
-    <a href="/students" class="action-btn success">
+    <a href="/students" class="action-btn teal">
         <i class="ti ti-users"></i> View Students
     </a>
     <a href="/attendance" class="action-btn warning">
@@ -57,12 +85,11 @@
     </a>
 </div>
 
-<!-- Recent students -->
 <div class="section-label">Recent Students</div>
 <div class="table-card">
     <div class="table-card-header">
-        <span>Students</span>
-        <small>{{ students|length }} recent</small>
+        <span>Latest Added</span>
+        <small>{{ students | length }} records</small>
     </div>
 
     {% if students %}
@@ -77,22 +104,33 @@
         <tbody>
             {% for s in students %}
             <tr>
-                <td><strong>{{ s.name }}</strong></td>
+                <td>
+                    <div style="display:flex; align-items:center; gap:10px;">
+                        <div class="user-avatar"
+                             style="width:30px; height:30px; font-size:11px;">
+                            {{ s.name[0].upper() }}
+                        </div>
+                        <strong>{{ s.name }}</strong>
+                    </div>
+                </td>
                 <td>{{ s.class_name }}</td>
                 <td>{{ s.joined_date }}</td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
+
     {% else %}
     <div class="empty-state">
-        <i class="ti ti-users" style="font-size:36px; display:block; margin-bottom:12px;"></i>
+        <i class="ti ti-users"></i>
         <p>No students added yet.</p>
-        <a href="/add_student" class="action-btn primary" style="display:inline-flex;">
-            <i class="ti ti-user-plus"></i> Add your first student
+        <a href="/add_student" class="action-btn primary"
+           style="display:inline-flex;">
+            <i class="ti ti-user-plus"></i> Add First Student
         </a>
     </div>
     {% endif %}
+
 </div>
 
 {% endblock %}

@@ -1,0 +1,125 @@
+{% extends 'base.html' %}
+{% block topbar_title %}Admin Panel{% endblock %}
+{% block content %}
+
+<div class="page-header">
+    <h2><i class="ti ti-shield-check"></i> Admin Panel</h2>
+    <p>Manage all users and system overview</p>
+</div>
+
+<!-- Admin stats -->
+<div class="row g-3 mb-4">
+    <div class="col-md-3">
+        <div class="admin-stat">
+            <div class="admin-stat-info">
+                <div class="admin-stat-label">Total Users</div>
+                <div class="admin-stat-value">{{ total_users }}</div>
+            </div>
+            <div class="admin-stat-icon stat-icon purple">
+                <i class="ti ti-users"></i>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="admin-stat">
+            <div class="admin-stat-info">
+                <div class="admin-stat-label">Total Students</div>
+                <div class="admin-stat-value">{{ total_students }}</div>
+            </div>
+            <div class="admin-stat-icon stat-icon teal">
+                <i class="ti ti-school"></i>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="admin-stat">
+            <div class="admin-stat-info">
+                <div class="admin-stat-label">Total Fee Records</div>
+                <div class="admin-stat-value">{{ total_fees }}</div>
+            </div>
+            <div class="admin-stat-icon stat-icon amber">
+                <i class="ti ti-receipt-2"></i>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="admin-stat">
+            <div class="admin-stat-info">
+                <div class="admin-stat-label">Pending Fees</div>
+                <div class="admin-stat-value">{{ pending_fees }}</div>
+            </div>
+            <div class="admin-stat-icon stat-icon red">
+                <i class="ti ti-clock"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Users table -->
+<div class="section-label">All Users</div>
+<div class="table-card">
+    <div class="table-card-header">
+        <span>Registered Users</span>
+        <small>{{ all_users|length }} total</small>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Joined</th>
+                <th>Students</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for u in all_users %}
+            <tr>
+                <td>
+                    <div style="display:flex; align-items:center; gap:10px;">
+                        <div class="user-avatar" style="width:30px; height:30px; font-size:11px;">
+                            {{ u.name[0].upper() }}
+                        </div>
+                        <strong>{{ u.name }}</strong>
+                    </div>
+                </td>
+                <td>{{ u.email }}</td>
+                <td>
+                    {% if u.role == 'admin' %}
+                    <span class="badge-pill purple">
+                        <i class="ti ti-shield-check"></i> Admin
+                    </span>
+                    {% else %}
+                    <span class="badge-pill teal">
+                        <i class="ti ti-user"></i> Teacher
+                    </span>
+                    {% endif %}
+                </td>
+                <td>{{ u.created_at }}</td>
+                <td>{{ u.students|length }}</td>
+                <td>
+                    {% if u.role != 'admin' %}
+                    <a href="{{ url_for('make_admin', user_id=u.id) }}"
+                       class="badge-pill purple me-1"
+                       style="text-decoration:none; cursor:pointer;"
+                       onclick="return confirm('Make {{ u.name }} an admin?')">
+                       Make Admin
+                    </a>
+                    {% endif %}
+                    {% if u.id != current_user.id %}
+                    <a href="{{ url_for('delete_user', user_id=u.id) }}"
+                       class="badge-pill red"
+                       style="text-decoration:none; cursor:pointer;"
+                       onclick="return confirm('Delete user {{ u.name }}? This will delete all their students too.')">
+                       Delete
+                    </a>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}
