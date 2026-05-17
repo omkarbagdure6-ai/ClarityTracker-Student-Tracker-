@@ -1,16 +1,18 @@
 {% extends 'base.html' %}
+{% block topbar_title %}Add Fee{% endblock %}
 {% block content %}
 
 <div class="page-header">
-    <h2><i class="ti ti-receipt me-2"></i>Add Fee Record</h2>
-    <p>Adding fee for <strong>{{ student.name }}</strong> — {{ student.class_name }}</p>
+    <h2><i class="ti ti-receipt"></i> Add Fee Record</h2>
+    <p>Adding fee for <strong>{{ student.name }}</strong>
+       — {{ student.class_name }}</p>
 </div>
 
 <div class="form-card">
     <form action="/add_fee/{{ student.id }}" method="POST">
 
         <div class="mb-3">
-            <label class="form-label">Month <span class="text-danger">*</span></label>
+            <label class="form-label">Month *</label>
             <input type="text"
                    name="month"
                    class="form-control"
@@ -36,10 +38,10 @@
         </div>
 
         <div class="d-flex gap-2 mt-4">
-             <a href="/add_student" class="action-btn primary">
-                 <i class="ti ti-user-plus"></i> Save Fees 
-             </a>
-            <a href="/fees" class="action-btn" style="border:1px solid var(--border);">
+            <button type="submit" class="btn-submit">
+                <i class="ti ti-device-floppy"></i> Save Fee
+            </button>
+            <a href="/fees" class="action-btn ghost">
                 Cancel
             </a>
         </div>

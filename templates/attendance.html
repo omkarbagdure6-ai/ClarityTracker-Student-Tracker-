@@ -1,14 +1,17 @@
 {% extends 'base.html' %}
+{% block topbar_title %}Attendance{% endblock %}
 {% block content %}
 
 <div class="page-header">
-    <h2><i class="ti ti-calendar-check me-2"></i>Attendance</h2>
+    <h2><i class="ti ti-calendar-check"></i> Attendance</h2>
     <p>Marking attendance for {{ today }}</p>
 </div>
 
 {% if students %}
+
 <form action="/attendance" method="POST">
-    <div class="table-card mb-3">
+
+    <div class="table-card" style="margin-bottom:20px;">
         <div class="table-card-header">
             <span>Today's Attendance</span>
             <small>{{ today }}</small>
@@ -37,7 +40,7 @@
                                 Present
                             </option>
                             <option value="Absent"
-                                {% if marked.get(s.id) == 'Absent' or s.id not in marked %}selected{% endif %}>
+                                {% if marked.get(s.id) != 'Present' %}selected{% endif %}>
                                 Absent
                             </option>
                         </select>
@@ -48,21 +51,26 @@
         </table>
     </div>
 
-     <a href="/add_student" class="action-btn primary">
-        <i class="ti ti-user-plus"></i> Save 
-    </a>
+    <button type="submit" class="btn-submit">
+        <i class="ti ti-calendar-check"></i> Save Attendance
+    </button>
+
 </form>
 
 {% else %}
+
 <div class="table-card">
     <div class="empty-state">
-        <i class="ti ti-calendar" style="font-size:36px; display:block; margin-bottom:12px;"></i>
+        <i class="ti ti-calendar"
+           style="font-size:36px; display:block; margin-bottom:12px;"></i>
         <p>No students yet. Add students first.</p>
-        <a href="/add_student" class="action-btn primary" style="display:inline-flex;">
+        <a href="/add_student" class="action-btn primary"
+           style="display:inline-flex;">
             <i class="ti ti-user-plus"></i> Add Student
         </a>
     </div>
 </div>
+
 {% endif %}
 
 {% endblock %}
